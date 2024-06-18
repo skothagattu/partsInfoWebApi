@@ -1,0 +1,6 @@
+C:\Users\skothagattu\AndroidStudioProjects\PartsInfoApi Project\PartsInfoWebApi\obj\Debug\net7.0\PartsInfoWebApp.csproj.AssemblyReference.cache
+C:\Users\skothagattu\AndroidStudioProjects\PartsInfoApi Project\PartsInfoWebApi\obj\Debug\net7.0\PartsInfoWebApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\skothagattu\AndroidStudioProjects\PartsInfoApi Project\PartsInfoWebApi\obj\Debug\net7.0\PartsInfoWebApp.AssemblyInfoInputs.cache
+C:\Users\skothagattu\AndroidStudioProjects\PartsInfoApi Project\PartsInfoWebApi\obj\Debug\net7.0\PartsInfoWebApp.AssemblyInfo.cs
+C:\Users\skothagattu\AndroidStudioProjects\PartsInfoApi Project\PartsInfoWebApi\obj\Debug\net7.0\PartsInfoWebApp.csproj.CoreCompileInputs.cache
+C:\Users\skothagattu\AndroidStudioProjects\PartsInfoApi Project\PartsInfoWebApi\obj\Debug\net7.0\PartsInfoWebApp.MvcApplicationPartsAssemblyInfo.cache
