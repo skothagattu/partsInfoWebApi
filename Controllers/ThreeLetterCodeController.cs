@@ -17,6 +17,14 @@ namespace PartsInfoWebApi.Controllers
             _service = service;
         }
 
+        [HttpGet("firstcode")]
+        public async Task<ActionResult<ThreeLetterCodeDto>> GetFirstCode()
+        {
+            var result = await _service.GetFirstAsync();
+            return Ok(result);
+        }
+
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ThreeLetterCodeDto>>> GetAll()
         {
