@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\skothagattu\AndroidStudioProjects\PartsInfoWebApiPublished</_PublishTargetUrl>
+    <History>True|2024-06-25T18:39:42.9256123Z;True|2024-06-25T14:03:50.9927119-04:00;True|2024-06-25T14:03:26.1258477-04:00;</History>
+    <LastFailureDetails />
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Server=CMIMOBILE021\SKOTH_2019%3bDatabase=PARTSINFO%3bUser Id=sa%3b Password=Apassword%40123%3bMultipleActiveResultSets=true%3bTrustServerCertificate=true</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

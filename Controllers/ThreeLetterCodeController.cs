@@ -95,6 +95,12 @@ namespace PartsInfoWebApi.Controllers
                 return BadRequest("Code, Type, and Company are required fields.");
             }
 
+            var existingCode = await _service.GetByIdAsync(dto.CODE);
+            if (existingCode != null)
+            {
+                return Conflict("Code already exists. Please create a unique code.");
+            }
+
             try
             {
                 await _service.AddAsync(dto);
@@ -106,7 +112,8 @@ namespace PartsInfoWebApi.Controllers
             }
         }
 
-        [HttpPut("{code}")]
+
+        [HttpPut("Update/{code}")]
         public async Task<ActionResult> Update(string code, ThreeLetterCodeDto dto)
         {
             if (code != dto.CODE)

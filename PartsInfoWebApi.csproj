@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Interfaces\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PartsInfoWebApi.core\PartsInfoWebApi.core.csproj" />
     <ProjectReference Include="..\PartsInfoWebApi.infrastructure\PartsInfoWebApi.infrastructure.csproj" />
   </ItemGroup>
