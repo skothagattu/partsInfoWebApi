@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using PartsInfoWebApi.core.Models;
 using PartsInfoWebApi.DTOs;
 using PartsInfoWebApi.Interfaces;
-using PartsInfoWebApi.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

@@ -2,7 +2,6 @@
 using PartsInfoWebApi.core.Models;
 using PartsInfoWebApi.Core.DTOs;
 using PartsInfoWebApi.Core.Interfaces;
-using PartsInfoWebApi.Core.Models;
 using PartsInfoWebApi.Interfaces;
 using System.Collections.Generic;
 using System.Linq;

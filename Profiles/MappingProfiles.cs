@@ -4,7 +4,6 @@ using PartsInfoWebApi.core.Models;
 using PartsInfoWebApi.Core.DTOs;
 using PartsInfoWebApi.Core.Models;
 using PartsInfoWebApi.DTOs;
-using PartsInfoWebApi.Models;
 
 namespace PartsInfoWebApi
 {
@@ -15,6 +14,7 @@ namespace PartsInfoWebApi
             CreateMap<ThreeLetterCode, ThreeLetterCodeDto>().ReverseMap();
             CreateMap<SubLog, SubLogDto>().ReverseMap();
             CreateMap<D03numbers, D03numbersDto>().ReverseMap();
+            CreateMap<DWGnumbers, DWGnumbersDto>().ReverseMap();
         }
     }
 }

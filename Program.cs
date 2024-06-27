@@ -22,6 +22,8 @@ builder.Services.AddScoped<IThreeLetterCodeService, ThreeLetterCodeService>();
 builder.Services.AddScoped<ISubLogService, SubLogService>();
 builder.Services.AddScoped<ID03numberService, D03numberService>();
 builder.Services.AddScoped<ID03numberRepository, D03numberRepository>();
+builder.Services.AddScoped<IDWGnumberService, DWGnumberService>();
+builder.Services.AddScoped<IDWGnumberRepository, DWGnumberRepository>();
 
 builder.Services.AddAutoMapper(typeof(Program)); // Assuming you have an AutoMapper profile setup
 
