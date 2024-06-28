@@ -24,6 +24,13 @@ builder.Services.AddScoped<ID03numberService, D03numberService>();
 builder.Services.AddScoped<ID03numberRepository, D03numberRepository>();
 builder.Services.AddScoped<IDWGnumberService, DWGnumberService>();
 builder.Services.AddScoped<IDWGnumberRepository, DWGnumberRepository>();
+builder.Services.AddScoped<ICabAireDWGNumberRepository, CabAireDWGNumberRepository>();
+builder.Services.AddScoped<ICabAireDWGNumberService, CabAireDWGNumberService>();
+builder.Services.AddScoped<IEcoLogRepository, EcoLogRepository>();
+builder.Services.AddScoped<IEcoLogService, EcoLogService>();
+builder.Services.AddScoped<IEcrLogRepository, EcrLogRepository>();
+builder.Services.AddScoped<IEcrLogService, EcrLogService>();
+
 
 builder.Services.AddAutoMapper(typeof(Program)); // Assuming you have an AutoMapper profile setup
 

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using PartsInfoWebApi.core.DTOs;
 using PartsInfoWebApi.Core.DTOs;
 using PartsInfoWebApi.Core.Interfaces;
 using PartsInfoWebApi.Core.Models;
+using PartsInfoWebApi.Infrastructure.Repositories;
 using PartsInfoWebApi.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,73 +10,73 @@ using System.Threading.Tasks;
 
 namespace PartsInfoWebApi.Services
 {
-    public class DWGnumberService : Service<DWGnumbers, DWGnumbersDto>, IDWGnumberService
+    public class EcoLogService : Service<EcoLog, EcoLogDto>, IEcoLogService
     {
-        private readonly IDWGnumberRepository _repository;
+        private readonly IEcoLogRepository _repository;
         private readonly IMapper _mapper;
 
-        public DWGnumberService(IRepository<DWGnumbers> repository, IMapper mapper, IDWGnumberRepository dwgnumberRepository)
+        public EcoLogService(IRepository<EcoLog> repository, IMapper mapper, IEcoLogRepository ecologRepository)
             : base(repository, mapper)
         {
-            _repository = dwgnumberRepository;
+            _repository = ecologRepository;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<DWGnumbersDto>> SearchAsync(string searchTerm)
+        public async Task<IEnumerable<EcoLogDto>> SearchAsync(string searchTerm)
         {
             var entities = await _repository.SearchAsync(searchTerm);
-            var dtos = _mapper.Map<IEnumerable<DWGnumbersDto>>(entities);
+            var dtos = _mapper.Map<IEnumerable<EcoLogDto>>(entities);
             await SetPositionInformation(dtos);
             return dtos;
         }
 
-        public async Task<DWGnumbersDto> GetFirstAsync()
+        public async Task<EcoLogDto> GetFirstAsync()
         {
             var entity = await _repository.GetFirstAsync();
-            var dto = _mapper.Map<DWGnumbersDto>(entity);
+            var dto = _mapper.Map<EcoLogDto>(entity);
             await SetPositionInformation(dto);
             return dto;
         }
 
-        public async Task<DWGnumbersDto> GetLastAsync()
+        public async Task<EcoLogDto> GetLastAsync()
         {
             var entity = await _repository.GetLastAsync();
-            var dto = _mapper.Map<DWGnumbersDto>(entity);
+            var dto = _mapper.Map<EcoLogDto>(entity);
             await SetPositionInformation(dto);
             return dto;
         }
 
-        public async Task<DWGnumbersDto> GetNextAsync(int currentNO)
+        public async Task<EcoLogDto> GetNextAsync(int currentNO)
         {
             var entity = await _repository.GetNextAsync(currentNO);
-            var dto = _mapper.Map<DWGnumbersDto>(entity);
+            var dto = _mapper.Map<EcoLogDto>(entity);
             await SetPositionInformation(dto);
             return dto;
         }
 
-        public async Task<DWGnumbersDto> GetPreviousAsync(int currentNO)
+        public async Task<EcoLogDto> GetPreviousAsync(int currentNO)
         {
             var entity = await _repository.GetPreviousAsync(currentNO);
-            var dto = _mapper.Map<DWGnumbersDto>(entity);
+            var dto = _mapper.Map<EcoLogDto>(entity);
             await SetPositionInformation(dto);
             return dto;
         }
 
-        public async Task<IEnumerable<DWGnumbersDto>> GetAllSortedAsync()
+        public async Task<IEnumerable<EcoLogDto>> GetAllSortedAsync()
         {
             var entities = await _repository.GetAllSortedAsync();
-            var dtos = _mapper.Map<IEnumerable<DWGnumbersDto>>(entities);
+            var dtos = _mapper.Map<IEnumerable<EcoLogDto>>(entities);
             await SetPositionInformation(dtos);
             return dtos;
         }
 
-        public override async Task AddAsync(DWGnumbersDto dto)
+        public override async Task AddAsync(EcoLogDto dto)
         {
-            var entity = _mapper.Map<DWGnumbers>(dto);
+            var entity = _mapper.Map<EcoLog>(dto);
             await _repository.AddAsync(entity);
         }
 
-        public async Task<(bool success, List<string> changedColumns)> UpdateAsync(DWGnumbersDto dto)
+        public async Task<(bool success, List<string> changedColumns)> UpdateAsync(EcoLogDto dto)
         {
             var entity = await _repository.GetByIdAsync(dto.NO);
             if (entity == null)
@@ -86,18 +86,19 @@ namespace PartsInfoWebApi.Services
 
             var changedColumns = new List<string>();
 
-            if (entity.PREFIX != dto.PREFIX) { changedColumns.Add(nameof(dto.PREFIX)); entity.PREFIX = dto.PREFIX; }
             if (entity.DESC != dto.DESC) { changedColumns.Add(nameof(dto.DESC)); entity.DESC = dto.DESC; }
             if (entity.MODEL != dto.MODEL) { changedColumns.Add(nameof(dto.MODEL)); entity.MODEL = dto.MODEL; }
-            if (entity.ORIG != dto.ORIG) { changedColumns.Add(nameof(dto.ORIG)); entity.ORIG = dto.ORIG; }
-            if (entity.DATE != dto.DATE) { changedColumns.Add(nameof(dto.DATE)); entity.DATE = dto.DATE; }
+            if (entity.ECR != dto.ECR) { changedColumns.Add(nameof(dto.ECR)); entity.ECR = dto.ECR; }
+            if (entity.DATE_LOG != dto.DATE_LOG) { changedColumns.Add(nameof(dto.DATE_LOG)); entity.DATE_LOG = dto.DATE_LOG; }
+            if (entity.NAME != dto.NAME) { changedColumns.Add(nameof(dto.NAME)); entity.NAME = dto.NAME; }
+            if (entity.DATE_REL != dto.DATE_REL) { changedColumns.Add(nameof(dto.DATE_REL)); entity.DATE_REL = dto.DATE_REL; }
 
             await _repository.UpdateAsync(entity);
 
             return (true, changedColumns);
         }
 
-        public async Task SetPositionInformation(IEnumerable<DWGnumbersDto> dtos)
+        public async Task SetPositionInformation(IEnumerable<EcoLogDto> dtos)
         {
             var allNumbers = (await _repository.GetAllSortedAsync()).ToList();
             int total = allNumbers.Count;
@@ -110,7 +111,7 @@ namespace PartsInfoWebApi.Services
             }
         }
 
-        public async Task SetPositionInformation(DWGnumbersDto dto)
+        public async Task SetPositionInformation(EcoLogDto dto)
         {
             var allNumbers = (await _repository.GetAllSortedAsync()).ToList();
             int total = allNumbers.Count;

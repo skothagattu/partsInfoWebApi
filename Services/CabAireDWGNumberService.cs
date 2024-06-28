@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using PartsInfoWebApi.core.DTOs;
+using PartsInfoWebApi.core.Models;
 using PartsInfoWebApi.Core.DTOs;
 using PartsInfoWebApi.Core.Interfaces;
 using PartsInfoWebApi.Core.Models;
@@ -10,73 +10,73 @@ using System.Threading.Tasks;
 
 namespace PartsInfoWebApi.Services
 {
-    public class DWGnumberService : Service<DWGnumbers, DWGnumbersDto>, IDWGnumberService
+    public class CabAireDWGNumberService : Service<CabAireDWGNumber, CabAireDWGNumberDto>, ICabAireDWGNumberService
     {
-        private readonly IDWGnumberRepository _repository;
+        private readonly ICabAireDWGNumberRepository _repository;
         private readonly IMapper _mapper;
 
-        public DWGnumberService(IRepository<DWGnumbers> repository, IMapper mapper, IDWGnumberRepository dwgnumberRepository)
+        public CabAireDWGNumberService(IRepository<CabAireDWGNumber> repository, IMapper mapper, ICabAireDWGNumberRepository cabAireDWGNumberRepository)
             : base(repository, mapper)
         {
-            _repository = dwgnumberRepository;
+            _repository = cabAireDWGNumberRepository;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<DWGnumbersDto>> SearchAsync(string searchTerm)
+        public async Task<IEnumerable<CabAireDWGNumberDto>> SearchAsync(string searchTerm)
         {
             var entities = await _repository.SearchAsync(searchTerm);
-            var dtos = _mapper.Map<IEnumerable<DWGnumbersDto>>(entities);
+            var dtos = _mapper.Map<IEnumerable<CabAireDWGNumberDto>>(entities);
             await SetPositionInformation(dtos);
             return dtos;
         }
 
-        public async Task<DWGnumbersDto> GetFirstAsync()
+        public async Task<CabAireDWGNumberDto> GetFirstAsync()
         {
             var entity = await _repository.GetFirstAsync();
-            var dto = _mapper.Map<DWGnumbersDto>(entity);
+            var dto = _mapper.Map<CabAireDWGNumberDto>(entity);
             await SetPositionInformation(dto);
             return dto;
         }
 
-        public async Task<DWGnumbersDto> GetLastAsync()
+        public async Task<CabAireDWGNumberDto> GetLastAsync()
         {
             var entity = await _repository.GetLastAsync();
-            var dto = _mapper.Map<DWGnumbersDto>(entity);
+            var dto = _mapper.Map<CabAireDWGNumberDto>(entity);
             await SetPositionInformation(dto);
             return dto;
         }
 
-        public async Task<DWGnumbersDto> GetNextAsync(int currentNO)
+        public async Task<CabAireDWGNumberDto> GetNextAsync(int currentNO)
         {
             var entity = await _repository.GetNextAsync(currentNO);
-            var dto = _mapper.Map<DWGnumbersDto>(entity);
+            var dto = _mapper.Map<CabAireDWGNumberDto>(entity);
             await SetPositionInformation(dto);
             return dto;
         }
 
-        public async Task<DWGnumbersDto> GetPreviousAsync(int currentNO)
+        public async Task<CabAireDWGNumberDto> GetPreviousAsync(int currentNO)
         {
             var entity = await _repository.GetPreviousAsync(currentNO);
-            var dto = _mapper.Map<DWGnumbersDto>(entity);
+            var dto = _mapper.Map<CabAireDWGNumberDto>(entity);
             await SetPositionInformation(dto);
             return dto;
         }
 
-        public async Task<IEnumerable<DWGnumbersDto>> GetAllSortedAsync()
+        public async Task<IEnumerable<CabAireDWGNumberDto>> GetAllSortedAsync()
         {
             var entities = await _repository.GetAllSortedAsync();
-            var dtos = _mapper.Map<IEnumerable<DWGnumbersDto>>(entities);
+            var dtos = _mapper.Map<IEnumerable<CabAireDWGNumberDto>>(entities);
             await SetPositionInformation(dtos);
             return dtos;
         }
 
-        public override async Task AddAsync(DWGnumbersDto dto)
+        public override async Task AddAsync(CabAireDWGNumberDto dto)
         {
-            var entity = _mapper.Map<DWGnumbers>(dto);
+            var entity = _mapper.Map<CabAireDWGNumber>(dto);
             await _repository.AddAsync(entity);
         }
 
-        public async Task<(bool success, List<string> changedColumns)> UpdateAsync(DWGnumbersDto dto)
+        public async Task<(bool success, List<string> changedColumns)> UpdateAsync(CabAireDWGNumberDto dto)
         {
             var entity = await _repository.GetByIdAsync(dto.NO);
             if (entity == null)
@@ -97,7 +97,8 @@ namespace PartsInfoWebApi.Services
             return (true, changedColumns);
         }
 
-        public async Task SetPositionInformation(IEnumerable<DWGnumbersDto> dtos)
+
+        public async Task SetPositionInformation(IEnumerable<CabAireDWGNumberDto> dtos)
         {
             var allNumbers = (await _repository.GetAllSortedAsync()).ToList();
             int total = allNumbers.Count;
@@ -110,7 +111,7 @@ namespace PartsInfoWebApi.Services
             }
         }
 
-        public async Task SetPositionInformation(DWGnumbersDto dto)
+        public async Task SetPositionInformation(CabAireDWGNumberDto dto)
         {
             var allNumbers = (await _repository.GetAllSortedAsync()).ToList();
             int total = allNumbers.Count;

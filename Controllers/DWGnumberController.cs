@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using PartsInfoWebApi.core.DTOs;
 using PartsInfoWebApi.Core.DTOs;
 using PartsInfoWebApi.Core.Interfaces;
@@ -58,7 +59,7 @@ namespace PartsInfoWebApi.Controllers
         }
 
         [HttpGet("next/{currentNO}")]
-        public async Task<ActionResult<DWGnumbersDto>> GetNext(string currentNO)
+        public async Task<ActionResult<DWGnumbersDto>> GetNext(int currentNO)
         {
             var result = await _service.GetNextAsync(currentNO);
             if (result == null)
@@ -69,7 +70,7 @@ namespace PartsInfoWebApi.Controllers
         }
 
         [HttpGet("previous/{currentNO}")]
-        public async Task<ActionResult<DWGnumbersDto>> GetPrevious(string currentNO)
+        public async Task<ActionResult<DWGnumbersDto>> GetPrevious(int currentNO)
         {
             var result = await _service.GetPreviousAsync(currentNO);
             if (result == null)
@@ -82,7 +83,7 @@ namespace PartsInfoWebApi.Controllers
         [HttpPost("create")]
         public async Task<ActionResult> Create([FromBody] DWGnumbersDto dto)
         {
-            if (string.IsNullOrEmpty(dto.NO) || string.IsNullOrEmpty(dto.DESC))
+            if (dto.NO == 0 || string.IsNullOrEmpty(dto.DESC))
             {
                 return BadRequest("NO and DESC are required fields.");
             }
@@ -105,7 +106,7 @@ namespace PartsInfoWebApi.Controllers
         }
 
         [HttpPut("update/{no}")]
-        public async Task<ActionResult> Update(string no, DWGnumbersDto dto)
+        public async Task<ActionResult> Update(int no, DWGnumbersDto dto)
         {
             if (no != dto.NO)
             {

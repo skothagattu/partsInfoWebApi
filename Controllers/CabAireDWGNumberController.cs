@@ -1,39 +1,40 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PartsInfoWebApi.Core.DTOs;
 using PartsInfoWebApi.Core.Interfaces;
-using Serilog;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PartsInfoWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class D03numberController : ControllerBase
+    public class CabAireDWGNumberController : ControllerBase
     {
-        private readonly ID03numberService _service;
+        private readonly ICabAireDWGNumberService _service;
 
-        public D03numberController(ID03numberService service)
+        public CabAireDWGNumberController(ICabAireDWGNumberService service)
         {
             _service = service;
         }
 
         [HttpGet("first")]
-        public async Task<ActionResult<D03numbersDto>> GetFirst()
+        public async Task<ActionResult<CabAireDWGNumberDto>> GetFirst()
         {
             var result = await _service.GetFirstAsync();
             return Ok(result);
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<D03numbersDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<CabAireDWGNumberDto>>> GetAll()
         {
             var result = await _service.GetAllSortedAsync();
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<D03numbersDto>> GetById(int id)
+        [HttpGet("{no}")]
+        public async Task<ActionResult<CabAireDWGNumberDto>> GetByNo(int no)
         {
-            var result = await _service.GetByIdAsync(id);
+            var result = await _service.GetByIdAsync(no);
             if (result == null)
             {
                 return NotFound();
@@ -43,23 +44,23 @@ namespace PartsInfoWebApi.Controllers
         }
 
         [HttpGet("search/{searchTerm}")]
-        public async Task<ActionResult<IEnumerable<D03numbersDto>>> Search(string searchTerm)
+        public async Task<ActionResult<IEnumerable<CabAireDWGNumberDto>>> Search(string searchTerm)
         {
             var result = await _service.SearchAsync(searchTerm);
             return Ok(result);
         }
 
         [HttpGet("last")]
-        public async Task<ActionResult<D03numbersDto>> GetLast()
+        public async Task<ActionResult<CabAireDWGNumberDto>> GetLast()
         {
             var result = await _service.GetLastAsync();
             return Ok(result);
         }
 
-        [HttpGet("next/{currentID}")]
-        public async Task<ActionResult<D03numbersDto>> GetNext(int currentID)
+        [HttpGet("next/{currentNO}")]
+        public async Task<ActionResult<CabAireDWGNumberDto>> GetNext(int currentNO)
         {
-            var result = await _service.GetNextAsync(currentID);
+            var result = await _service.GetNextAsync(currentNO);
             if (result == null)
             {
                 return NotFound();
@@ -67,10 +68,10 @@ namespace PartsInfoWebApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet("previous/{currentID}")]
-        public async Task<ActionResult<D03numbersDto>> GetPrevious(int currentID)
+        [HttpGet("previous/{currentNO}")]
+        public async Task<ActionResult<CabAireDWGNumberDto>> GetPrevious(int currentNO)
         {
-            var result = await _service.GetPreviousAsync(currentID);
+            var result = await _service.GetPreviousAsync(currentNO);
             if (result == null)
             {
                 return NotFound();
@@ -79,17 +80,17 @@ namespace PartsInfoWebApi.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult> Create([FromBody] D03numbersDto dto)
+        public async Task<ActionResult> Create([FromBody] CabAireDWGNumberDto dto)
         {
-            if (dto.ID == 0 || string.IsNullOrEmpty(dto.DESCRIPTION))
+            if (string.IsNullOrEmpty(dto.DESC))
             {
-                return BadRequest("ID and DESCRIPTION are required fields.");
+                return BadRequest("DESC is a required field.");
             }
 
-            var existingD03number = await _service.GetByIdAsync(dto.ID);
-            if (existingD03number != null)
+            var existingCabAireDWGNumber = await _service.GetByIdAsync(dto.NO);
+            if (existingCabAireDWGNumber != null)
             {
-                return Conflict("ID already exists. Please create a unique ID.");
+                return Conflict("NO already exists. Please create a unique NO.");
             }
 
             try
@@ -103,10 +104,10 @@ namespace PartsInfoWebApi.Controllers
             }
         }
 
-        [HttpPut("update/{id}")]
-        public async Task<ActionResult> Update(int id, D03numbersDto dto)
+        [HttpPut("update/{no}")]
+        public async Task<ActionResult> Update(int no, CabAireDWGNumberDto dto)
         {
-            if (id != dto.ID)
+            if (no != dto.NO)
             {
                 return BadRequest();
             }
@@ -120,10 +121,11 @@ namespace PartsInfoWebApi.Controllers
             return Ok($"Record updated. Changed columns: {string.Join(", ", result.changedColumns)}");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+
+        [HttpDelete("{no}")]
+        public async Task<ActionResult> Delete(int no)
         {
-            await _service.DeleteAsync(id);
+            await _service.DeleteAsync(no);
             return NoContent();
         }
     }

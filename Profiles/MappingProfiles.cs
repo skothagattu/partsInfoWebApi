@@ -15,6 +15,9 @@ namespace PartsInfoWebApi
             CreateMap<SubLog, SubLogDto>().ReverseMap();
             CreateMap<D03numbers, D03numbersDto>().ReverseMap();
             CreateMap<DWGnumbers, DWGnumbersDto>().ReverseMap();
+            CreateMap<CabAireDWGNumber, CabAireDWGNumberDto>().ReverseMap();
+            CreateMap<EcoLog, EcoLogDto>().ReverseMap();
+            CreateMap<EcrLog, EcrLogDto>().ReverseMap();
         }
     }
 }

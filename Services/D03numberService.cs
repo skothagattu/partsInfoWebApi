@@ -2,6 +2,7 @@
 using PartsInfoWebApi.core.Models;
 using PartsInfoWebApi.Core.DTOs;
 using PartsInfoWebApi.Core.Interfaces;
+using PartsInfoWebApi.Core.Models;
 using PartsInfoWebApi.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,7 @@ namespace PartsInfoWebApi.Services
             return dto;
         }
 
-        public async Task<D03numbersDto> GetNextAsync(string currentID)
+        public async Task<D03numbersDto> GetNextAsync(int currentID)
         {
             var entity = await _repository.GetNextAsync(currentID);
             var dto = _mapper.Map<D03numbersDto>(entity);
@@ -53,7 +54,7 @@ namespace PartsInfoWebApi.Services
             return dto;
         }
 
-        public async Task<D03numbersDto> GetPreviousAsync(string currentID)
+        public async Task<D03numbersDto> GetPreviousAsync(int currentID)
         {
             var entity = await _repository.GetPreviousAsync(currentID);
             var dto = _mapper.Map<D03numbersDto>(entity);
