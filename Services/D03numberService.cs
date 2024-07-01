@@ -76,6 +76,30 @@ namespace PartsInfoWebApi.Services
             await _repository.AddAsync(entity);
         }
 
+        public async Task<(bool success, List<string> changedColumns, string error)> AddOrUpdateAsync(D03numbersDto dto)
+        {
+            var existingRecord = await _repository.GetByIdAsync(dto.ID);
+            if (existingRecord != null)
+            {
+                if (!string.IsNullOrEmpty(existingRecord.DESCRIPTION) || !string.IsNullOrEmpty(existingRecord.BL_NUMBER) ||
+                    !string.IsNullOrEmpty(existingRecord.PANEL_DWG) || !string.IsNullOrEmpty(existingRecord.WHO) ||
+                    !string.IsNullOrEmpty(existingRecord.START_DATE) || !string.IsNullOrEmpty(existingRecord.MODEL))
+                {
+                    return (false, new List<string>(), "Record with this ID already exists and has filled fields.");
+                }
+                else
+                {
+                    var (success, changedColumns) = await UpdateAsync(dto);
+                    return (success, changedColumns, string.Empty);
+                }
+            }
+            else
+            {
+                await AddAsync(dto);
+                return (true, new List<string>(), string.Empty);
+            }
+        }
+
         public async Task<(bool success, List<string> changedColumns)> UpdateAsync(D03numbersDto dto)
         {
             var entity = await _repository.GetByIdAsync(dto.ID);
@@ -97,7 +121,6 @@ namespace PartsInfoWebApi.Services
 
             return (true, changedColumns);
         }
-
         public async Task SetPositionInformation(IEnumerable<D03numbersDto> dtos)
         {
             var allNumbers = (await _repository.GetAllSortedAsync()).ToList();

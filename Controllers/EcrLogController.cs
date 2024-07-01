@@ -79,24 +79,22 @@ namespace PartsInfoWebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPost("create")]
-        public async Task<ActionResult> Create([FromBody] EcrLogDto dto)
+        [HttpPost("createOrUpdate")]
+        public async Task<ActionResult> CreateOrUpdate([FromBody] EcrLogDto dto)
         {
             if (dto.NO == 0 || string.IsNullOrEmpty(dto.DESC))
             {
                 return BadRequest("NO and DESC are required fields.");
             }
 
-            var existingEcrLog = await _service.GetByIdAsync(dto.NO);
-            if (existingEcrLog != null)
-            {
-                return Conflict("NO already exists. Please create a unique NO.");
-            }
-
             try
             {
-                await _service.AddAsync(dto);
-                return Ok("Record successfully created.");
+                var (success, _, error) = await _service.AddOrUpdateAsync(dto);
+                if (!success)
+                {
+                    return Conflict(error);
+                }
+                return Ok("Record successfully created or updated.");
             }
             catch (System.Exception ex)
             {
@@ -120,6 +118,7 @@ namespace PartsInfoWebApi.Controllers
 
             return Ok($"Record updated. Changed columns: {string.Join(", ", result.changedColumns)}");
         }
+
 
         [HttpDelete("{no}")]
         public async Task<ActionResult> Delete(int no)

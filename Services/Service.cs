@@ -34,10 +34,11 @@ namespace PartsInfoWebApi.Services
             await _repository.AddAsync(entity);
         }
 
-        public async Task UpdateAsync(TDto dto)
+        public virtual async Task<(bool success, List<string> changedColumns, string error)> UpdateAsync(TDto dto)
         {
             var entity = _mapper.Map<TEntity>(dto);
             await _repository.UpdateAsync(entity);
+            return (true, new List<string>(), string.Empty); // Placeholder implementation
         }
 
         public async Task DeleteAsync(object id)

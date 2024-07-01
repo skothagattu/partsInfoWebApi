@@ -79,6 +79,28 @@ namespace PartsInfoWebApi.Controllers
             }
             return Ok(result);
         }
+        [HttpPost("createOrUpdate")]
+        public async Task<ActionResult> CreateOrUpdate([FromBody] DWGnumbersDto dto)
+        {
+            if (dto.NO == 0 || string.IsNullOrEmpty(dto.DESC))
+            {
+                return BadRequest("NO and DESC are required fields.");
+            }
+
+            try
+            {
+                var (success, _, error) = await _service.AddOrUpdateAsync(dto);
+                if (!success)
+                {
+                    return Conflict(error);
+                }
+                return Ok("Record successfully created or updated.");
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
         [HttpPost("create")]
         public async Task<ActionResult> Create([FromBody] DWGnumbersDto dto)

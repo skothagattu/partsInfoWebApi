@@ -75,12 +75,36 @@ namespace PartsInfoWebApi.Services
             await _repository.AddAsync(entity);
         }
 
-        public async Task<(bool success, List<string> changedColumns)> UpdateAsync(EcrLogDto dto)
+        public async Task<(bool success, List<string> changedColumns, string error)> AddOrUpdateAsync(EcrLogDto dto)
+        {
+            var existingRecord = await _repository.GetByIdAsync(dto.NO);
+            if (existingRecord != null)
+            {
+                if (!string.IsNullOrEmpty(existingRecord.DESC) || !string.IsNullOrEmpty(existingRecord.MODEL) ||
+                    !string.IsNullOrEmpty(existingRecord.DATE_LOG) || !string.IsNullOrEmpty(existingRecord.NAME) ||
+                    !string.IsNullOrEmpty(existingRecord.ECO) || !string.IsNullOrEmpty(existingRecord.DATE_REL))
+                {
+                    return (false, new List<string>(), "Record with this NO already exists and has filled fields.");
+                }
+                else
+                {
+                    var (success, changedColumns, error) = await UpdateAsync(dto);
+                    return (success, changedColumns, error);
+                }
+            }
+            else
+            {
+                await AddAsync(dto);
+                return (true, new List<string>(), string.Empty);
+            }
+        }
+
+        public override async Task<(bool success, List<string> changedColumns, string error)> UpdateAsync(EcrLogDto dto)
         {
             var entity = await _repository.GetByIdAsync(dto.NO);
             if (entity == null)
             {
-                return (false, new List<string>());
+                return (false, new List<string>(), "Record not found.");
             }
 
             var changedColumns = new List<string>();
@@ -94,8 +118,10 @@ namespace PartsInfoWebApi.Services
 
             await _repository.UpdateAsync(entity);
 
-            return (true, changedColumns);
+            return (true, changedColumns, string.Empty);
         }
+
+
 
         public async Task SetPositionInformation(IEnumerable<EcrLogDto> dtos)
         {
